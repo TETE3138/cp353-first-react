@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
 import './index.css';
-
+import {login} from '../../api'
 class Login extends Component {
   state = {
-    username: 'Gatuk',
+    username: '',
     password: ''
   }
    onTextChange= (event)=>{
@@ -13,6 +13,16 @@ class Login extends Component {
     this.setState({
       [name]:value
     })
+   }
+   onSubmit=event =>{
+     event.preventDefault()
+     login(this.state.username, this.state.password)
+     .then(data => {
+       if (data.status === 200) {
+         localStorage.setItem('username', this.state.username)   
+         this.props.history.replace("/")    
+       }
+     })
    }
   render() {
     return (
